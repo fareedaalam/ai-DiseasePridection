@@ -1,0 +1,21 @@
+#frontend docker file
+FROM node:22-bullseye
+
+WORKDIR /app
+
+# Copy only package.json & package-lock.json first
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy rest of the code
+COPY . .
+
+EXPOSE 5173
+CMD ["npm", "run", "dev", "--", "--host"]
+
+
+#docker build -t apnaopd-frontend ./frontend
+#docker run -d -p 5173:5173 apnaopd-frontend:latest
+#docker stop name/containerid

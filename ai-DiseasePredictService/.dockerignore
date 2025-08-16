@@ -1,0 +1,4 @@
+node_modules
+ai-DiseasePridection/DiseasePrediction/node_modules
+npm-debug.log
+.DS_Store

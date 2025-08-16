@@ -1,0 +1,18 @@
+FROM node:18 AS build
+WORKDIR /app
+
+# Build frontend
+COPY frontend ./frontend
+WORKDIR /app/frontend
+RUN npm install && npm run build
+
+# Build backend
+WORKDIR /app/backend
+COPY backend ./backend
+RUN npm install
+
+# Copy frontend build to backend public
+RUN mkdir -p /app/backend/public && cp -r /app/frontend/dist/* /app/backend/public/
+
+EXPOSE 5000
+CMD ["node", "server.js"]

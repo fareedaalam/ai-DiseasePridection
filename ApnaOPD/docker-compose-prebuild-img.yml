@@ -10,3 +10,6 @@ services:
     container_name: frontend
     ports:
       - "5173:5173"
+
+
+#docker compose -f docker-compose-prebuild-img.yml up

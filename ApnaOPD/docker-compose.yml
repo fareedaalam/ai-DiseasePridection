@@ -1,16 +1,32 @@
 services:
+  ai-backend:
+    build: ./ai-DiseasePredictService
+    image: img-ai-diagnose-service:${IMAGE_TAG}
+    container_name: ai-diagnose-service
+    ports:
+      - "3000:3000"
+
   backend:
     build: ./backend
-    container_name: backend
+    image: img-backend-service:${IMAGE_TAG}
+    container_name: backend-service
     ports:
       - "5000:5000"
 
   frontend:
     build: ./frontend
-    container_name: frontend
+    image: img-app:${IMAGE_TAG}
+    container_name: frontend-app
     ports:
       - "5173:5173"
 
 
 #  docker-compose up --build
 #  docker compose up --build
+# docker compose -f docker-compose.yml up
+# docker rmi -f img-backend-service:latest img-ai-diagnose-service:latest img-app:latest
+# docker rmi -f img-backend-service img-ai-diagnose-service img-app
+
+#=================Delete all images=================
+# TAG=$(grep TAG .env | cut -d '=' -f2) docker rmi -f img-backend-service:$TAG img-ai-diagnose-service:$TAG img-app:$TAG
+#=================================

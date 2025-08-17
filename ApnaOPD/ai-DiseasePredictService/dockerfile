@@ -21,7 +21,7 @@ EXPOSE 3000
 CMD ["node", "src/server.js"]
 
 
-# docker build -t img-ai-disease-predict-service ./ai-DiseasePredictService
+# docker build -t img-ai-disease-predict-service ../ai-DiseasePredictService
 # docker run -d -p 3000:3000 img-ai-disease-predict-service:latest
 #docker stop name/containerid
 

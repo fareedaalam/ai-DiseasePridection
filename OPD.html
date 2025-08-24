@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OPD Visit - Simple HTML Form</title>
+  <style>
+    :root {
+      --bg: #bfdbfe;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+    .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 18px; }
+    h1 { font-size: 24px; margin: 0 0 12px; }
+    h2 { font-size: 18px; margin: 0 0 10px; }
+    p.help { color: var(--muted); margin-top: -6px; font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+    .col-12 { grid-column: span 12; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-3 { grid-column: span 3; }
+    .field { display: flex; flex-direction: column; }
+    label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    input, select, textarea { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font: inherit; width: 100%; background: #fff; }
+    textarea { min-height: 72px; resize: vertical; }
+    .row { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; margin-bottom: 10px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--border); background: #fff; color: var(--text); padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.ghost { background: transparent; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    caption { text-align: left; font-weight: 600; margin-bottom: 8px; }
+    details { border: 1px dashed var(--border); border-radius: 12px; padding: 10px 12px; background: #fafafa; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    .muted { color: var(--muted); font-size: 12px; }
+    @media (max-width: 768px) {
+      .col-6, .col-4, .col-3 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Outpatient (OPD) Visit Form</h1>
+      <p class="help">Fill all required fields (marked with *). This is a single-page, dependency-free HTML form you can drop into any app.</p>
+    </div>
+
+    <!-- Visit & Registration Info -->
+    <form id="opdForm" class="card" onsubmit="event.preventDefault(); alert('Form submitted (demo).');">
+      <h2>Visit & Registration</h2>
+      <div class="grid">
+        <div class="field col-4">
+          <label for="visitDate">Visit Date *</label>
+          <input type="date" id="visitDate" name="visitDate" required />
+        </div>
+        <div class="field col-4">
+          <label for="visitTime">Visit Time *</label>
+          <input type="time" id="visitTime" name="visitTime" required />
+        </div>
+        <div class="field col-4">
+          <label for="opdNo">OPD No.</label>
+          <input type="text" id="opdNo" name="opdNo" placeholder="e.g. OPD-2025-00123" />
+        </div>
+
+        <div class="field col-4">
+          <label for="uhid">UHID / Patient ID *</label>
+          <input type="text" id="uhid" name="uhid" required />
+        </div>
+        <div class="field col-4">
+          <label for="department">Department *</label>
+          <select id="department" name="department" required>
+            <option value="">Select department</option>
+            <option>General Medicine</option>
+            <option>Pediatrics</option>
+            <option>Orthopedics</option>
+            <option>ENT</option>
+            <option>OBG</option>
+            <option>Dermatology</option>
+            <option>Ophthalmology</option>
+            <option>Dentistry</option>
+          </select>
+        </div>
+        <div class="field col-4">
+          <label for="doctor">Consulting Doctor *</label>
+          <input type="text" id="doctor" name="doctor" placeholder="Dr. Name" required />
+        </div>
+
+        <div class="field col-3">
+          <label for="apptType">Appointment Type</label>
+          <select id="apptType" name="apptType">
+            <option>Walk-in</option>
+            <option>Scheduled</option>
+            <option>Follow-up</option>
+            <option>Emergency</option>
+          </select>
+        </div>
+        <div class="field col-3">
+          <label for="token">Token / Queue No.</label>
+          <input type="text" id="token" name="token" />
+        </div>
+        <div class="field col-3">
+          <label for="refBy">Referred By</label>
+          <input type="text" id="refBy" name="refBy" placeholder="Self / Doctor / Hospital" />
+        </div>
+        <div class="field col-3">
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority">
+            <option>Normal</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Patient Demographics -->
+      <h2>Patient Details</h2>
+      <div class="grid">
+        <div class="field col-4">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="firstName" required />
+        </div>
+        <div class="field col-4">
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" name="lastName" required />
+        </div>
+        <div class="field col-4">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" />
+        </div>
+        <div class="field col-3">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="0" max="120" />
+        </div>
+        <div class="field col-3">
+          <label for="gender">Gender *</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field col-3">
+          <label for="blood">Blood Group</label>
+          <select id="blood" name="blood">
+            <option value="">Select</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+          </select>
+        </div>
+        <div class="field col-3">
+          <label for="marital">Marital Status</label>
+          <select id="marital" name="marital">
+            <option>Single</option><option>Married</option><option>Other</option>
+          </select>
+        </div>
+
+        <div class="field col-6">
+          <label for="phone">Mobile *</label>
+          <input type="tel" id="phone" name="phone" placeholder="10-digit number" required />
+        </div>
+        <div class="field col-6">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="name@example.com" />
+        </div>
+
+        <div class="field col-12">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" placeholder="House no., Street, Area" />
+        </div>
+        <div class="field col-4">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" />
+        </div>
+        <div class="field col-4">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" />
+        </div>
+        <div class="field col-4">
+          <label for="pincode">Pincode</label>
+          <input type="text" id="pincode" name="pincode" />
+        </div>
+
+        <div class="field col-6">
+          <label for="guardian">Guardian / Attendant Name</label>
+          <input type="text" id="guardian" name="guardian" />
+        </div>
+        <div class="field col-6">
+          <label for="allergies">Allergies</label>
+          <input type="text" id="allergies" name="allergies" placeholder="e.g., Penicillin, Peanuts" />
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Vitals -->
+      <h2>Vitals</h2>
+      <div class="grid">
+        <div class="field col-3">
+          <label for="height">Height (cm)</label>
+          <input type="number" step="0.1" id="height" />
+        </div>
+        <div class="field col-3">
+          <label for="weight">Weight (kg)</label>
+          <input type="number" step="0.1" id="weight" />
+        </div>
+        <div class="field col-3">
+          <label for="bmi">BMI</label>
+          <input type="text" id="bmi" readonly />
+        </div>
+        <div class="field col-3">
+          <label for="temp">Temp (°C)</label>
+          <input type="number" step="0.1" id="temp" />
+        </div>
+        <div class="field col-3">
+          <label for="pulse">Pulse (/min)</label>
+          <input type="number" id="pulse" />
+        </div>
+        <div class="field col-3">
+          <label for="bpSys">BP Systolic (mmHg)</label>
+          <input type="number" id="bpSys" />
+        </div>
+        <div class="field col-3">
+          <label for="bpDia">BP Diastolic (mmHg)</label>
+          <input type="number" id="bpDia" />
+        </div>
+        <div class="field col-3">
+          <label for="spo2">SpO₂ (%)</label>
+          <input type="number" id="spo2" />
+        </div>
+        <div class="field col-3">
+          <label for="rr">Resp. Rate (/min)</label>
+          <input type="number" id="rr" />
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Clinical Notes -->
+      <h2>Clinical Notes</h2>
+      <div class="grid">
+        <div class="field col-12">
+          <label for="chiefComplaint">Chief Complaint *</label>
+          <textarea id="chiefComplaint" required></textarea>
+        </div>
+        <div class="field col-12">
+          <label for="history">History of Present Illness</label>
+          <textarea id="history"></textarea>
+        </div>
+        <div class="field col-12">
+          <label for="pastHistory">Past Medical / Surgical History</label>
+          <textarea id="pastHistory"></textarea>
+        </div>
+        <div class="field col-12">
+          <label for="exam">Examination Findings</label>
+          <textarea id="exam"></textarea>
+        </div>
+        <div class="field col-6">
+          <label for="provisionalDx">Provisional Diagnosis</label>
+          <input type="text" id="provisionalDx" />
+        </div>
+        <div class="field col-6">
+          <label for="finalDx">Final Diagnosis (ICD-10)</label>
+          <input type="text" id="finalDx" placeholder="e.g., J06.9" />
+        </div>
+      </div>
+
+      <details>
+        <summary>Advanced History (optional)</summary>
+        <div class="row">
+          <div class="field col-12">
+            <label for="familyHistory">Family History</label>
+            <textarea id="familyHistory"></textarea>
+          </div>
+          <div class="field col-12">
+            <label for="socialHistory">Social History (Smoking/Alcohol/Occupation)</label>
+            <textarea id="socialHistory"></textarea>
+          </div>
+          <div class="field col-12">
+            <label for="currentMeds">Current Medications</label>
+            <textarea id="currentMeds"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <hr />
+
+      <!-- Investigations -->
+      <h2>Investigations</h2>
+      <div class="actions" style="margin-bottom:8px;">
+        <button type="button" class="btn" onclick="addRow('testsBody')">+ Add Test</button>
+        <span class="muted">Add lab/radiology tests with notes.</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30%">Test Name</th>
+            <th style="width:20%">Type</th>
+            <th style="width:20%">Priority</th>
+            <th>Notes</th>
+            <th style="width:60px">Del</th>
+          </tr>
+        </thead>
+        <tbody id="testsBody"></tbody>
+      </table>
+
+      <hr />
+
+      <!-- Prescription -->
+      <h2>Prescription</h2>
+      <div class="actions" style="margin-bottom:8px;">
+        <button type="button" class="btn" onclick="addRow('rxBody', true)">+ Add Medicine</button>
+        <span class="muted">Fill dose, frequency, duration & qty.</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Drug</th>
+            <th style="width:10%">Strength</th>
+            <th style="width:10%">Form</th>
+            <th style="width:10%">Dose</th>
+            <th style="width:12%">Frequency</th>
+            <th style="width:10%">Duration</th>
+            <th style="width:10%">Quantity</th>
+            <th>Instructions</th>
+            <th style="width:60px">Del</th>
+          </tr>
+        </thead>
+        <tbody id="rxBody"></tbody>
+      </table>
+
+      <hr />
+
+      <!-- Procedures & Consents -->
+      <h2>Procedures & Consents</h2>
+      <div class="grid">
+        <div class="field col-6">
+          <label for="procedureName">Procedure</label>
+          <input type="text" id="procedureName" placeholder="e.g., Nebulization" />
+        </div>
+        <div class="field col-6">
+          <label for="consent">Consent</label>
+          <select id="consent">
+            <option>Not Required</option>
+            <option>Obtained</option>
+            <option>Pending</option>
+          </select>
+        </div>
+        <div class="field col-12">
+          <label for="procedureNotes">Procedure Notes</label>
+          <textarea id="procedureNotes"></textarea>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Billing / Payment -->
+      <h2>Billing</h2>
+      <div class="grid">
+        <div class="field col-3">
+          <label for="consultFee">Consultation Fee (₹)</label>
+          <input type="number" step="0.01" id="consultFee" value="0" />
+        </div>
+        <div class="field col-3">
+          <label for="investCost">Investigations (₹)</label>
+          <input type="number" step="0.01" id="investCost" value="0" />
+        </div>
+        <div class="field col-3">
+          <label for="discount">Discount (₹)</label>
+          <input type="number" step="0.01" id="discount" value="0" />
+        </div>
+        <div class="field col-3">
+          <label for="total">Total (₹)</label>
+          <input type="text" id="total" readonly />
+        </div>
+
+        <div class="field col-4">
+          <label for="payMode">Payment Mode</label>
+          <select id="payMode">
+            <option>Cash</option>
+            <option>Card</option>
+            <option>UPI</option>
+            <option>Insurance</option>
+          </select>
+        </div>
+        <div class="field col-4">
+          <label for="amountPaid">Amount Received (₹)</label>
+          <input type="number" step="0.01" id="amountPaid" value="0" />
+        </div>
+        <div class="field col-4">
+          <label for="balance">Balance Due (₹)</label>
+          <input type="text" id="balance" readonly />
+        </div>
+      </div>
+
+      <details>
+        <summary>Insurance Details (optional)</summary>
+        <div class="row">
+          <div class="field col-4">
+            <label for="insurer">Insurer</label>
+            <input type="text" id="insurer" />
+          </div>
+          <div class="field col-4">
+            <label for="policyNo">Policy No.</label>
+            <input type="text" id="policyNo" />
+          </div>
+          <div class="field col-4">
+            <label for="tpa">TPA</label>
+            <input type="text" id="tpa" />
+          </div>
+          <div class="field col-4">
+            <label for="preauth">Pre-Auth No.</label>
+            <input type="text" id="preauth" />
+          </div>
+        </div>
+      </details>
+
+      <hr />
+
+      <!-- Attachments & Follow Up -->
+      <h2>Attachments & Follow-up</h2>
+      <div class="grid">
+        <div class="field col-6">
+          <label for="attachments">Attach Files</label>
+          <input type="file" id="attachments" multiple />
+        </div>
+        <div class="field col-3">
+          <label for="followDate">Next Visit Date</label>
+          <input type="date" id="followDate" />
+        </div>
+        <div class="field col-3">
+          <label for="followTime">Next Visit Time</label>
+          <input type="time" id="followTime" />
+        </div>
+        <div class="field col-12">
+          <label for="followNotes">Follow-up Notes</label>
+          <textarea id="followNotes"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <label class="muted"><input type="checkbox" id="smsNotify" /> Send SMS reminder</label>
+          &nbsp;&nbsp;
+          <label class="muted"><input type="checkbox" id="emailNotify" /> Send Email reminder</label>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Consents & Declarations -->
+      <h2>Declarations</h2>
+      <div class="row">
+        <div class="col-12">
+          <label class="muted"><input type="checkbox" id="privacy" required /> I confirm the details are correct and consent to store my data for clinical purposes. *</label>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:14px;">
+        <button type="submit" class="btn primary">Save Visit</button>
+        <button type="button" class="btn" onclick="window.print()">Print</button>
+        <button type="reset" class="btn ghost">Reset</button>
+      </div>
+    </form>
+
+    <div class="card">
+      <p class="muted">Tip: This is plain HTML/CSS/JS. You can paste into Angular/React/ASP.NET views and wire inputs to your API.</p>
+    </div>
+  </div>
+
+  <script>
+    // Auto-fill current date/time
+    (function initDateTime(){
+      const d = document.getElementById('visitDate');
+      const t = document.getElementById('visitTime');
+      const now = new Date();
+      if (d && !d.value) d.valueAsDate = now;
+      if (t && !t.value) {
+        const hh = String(now.getHours()).padStart(2,'0');
+        const mm = String(now.getMinutes()).padStart(2,'0');
+        t.value = `${hh}:${mm}`;
+      }
+    })();
+
+    // BMI calculator
+    function calcBMI(){
+      const h = parseFloat(document.getElementById('height').value || 0);
+      const w = parseFloat(document.getElementById('weight').value || 0);
+      const bmi = (h && w) ? (w / ((h/100)**2)) : 0;
+      document.getElementById('bmi').value = bmi ? bmi.toFixed(1) : '';
+    }
+    ['height','weight'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', calcBMI);
+    });
+
+    // Billing totals
+    function updateTotals(){
+      const consult = parseFloat(document.getElementById('consultFee').value || 0);
+      const inv = parseFloat(document.getElementById('investCost').value || 0);
+      const disc = parseFloat(document.getElementById('discount').value || 0);
+      const paid = parseFloat(document.getElementById('amountPaid').value || 0);
+      const total = Math.max(0, consult + inv - disc);
+      const bal = Math.max(0, total - paid);
+      document.getElementById('total').value = total.toFixed(2);
+      document.getElementById('balance').value = bal.toFixed(2);
+    }
+    ['consultFee','investCost','discount','amountPaid'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateTotals);
+    });
+
+    // Dynamic table rows for tests & prescription
+    function addRow(tbodyId, isRx){
+      const tbody = document.getElementById(tbodyId);
+      const tr = document.createElement('tr');
+      if (isRx){
+        tr.innerHTML = `
+          <td><input type="text" placeholder="Paracetamol" /></td>
+          <td><input type="text" placeholder="500 mg" style="width:100%" /></td>
+          <td><input type="text" placeholder="Tablet" /></td>
+          <td><input type="text" placeholder="1" /></td>
+          <td>
+            <select>
+              <option>TID</option>
+              <option>BID</option>
+              <option>OD</option>
+              <option>QID</option>
+              <option>PRN</option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="5 days" /></td>
+          <td><input type="number" step="1" min="0" placeholder="10" /></td>
+          <td><input type="text" placeholder="After food" /></td>
+          <td><button type="button" class="btn" onclick="this.closest('tr').remove()">×</button></td>`;
+      } else {
+        tr.innerHTML = `
+          <td><input type="text" placeholder="CBC / X-Ray Chest" /></td>
+          <td>
+            <select>
+              <option>Lab</option>
+              <option>Radiology</option>
+              <option>Other</option>
+            </select>
+          </td>
+          <td>
+            <select>
+              <option>Routine</option>
+              <option>Urgent</option>
+              <option>Stat</option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="Fasting required" /></td>
+          <td><button type="button" class="btn" onclick="this.closest('tr').remove()">×</button></td>`;
+      }
+      tbody.appendChild(tr);
+    }
+
+    // Initialize with one default row each
+    addRow('testsBody');
+    addRow('rxBody', true);
+  </script>
+</body>
+</html>

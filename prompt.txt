@@ -1,0 +1,68 @@
+
+<h2>Prescription</h2>
+      <div class="actions" style="margin-bottom:8px;">
+        <button type="button" class="btn" onclick="addRow('rxBody', true)">+ Add Medicine</button>
+        <span class="muted">Fill dose, frequency, duration & qty.</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:22%">Drug</th>
+            <th style="width:10%">Strength</th>
+            <th style="width:10%">Form</th>
+            <th style="width:10%">Dose</th>
+            <th style="width:12%">Frequency</th>
+            <th style="width:10%">Duration</th>
+            <th style="width:10%">Quantity</th>
+            <th>Instructions</th>
+            <th style="width:60px">Del</th>
+          </tr>
+        </thead>
+        <tbody id="rxBody"></tbody>
+      </table>
+      
+// Dynamic table rows for tests & prescription
+    function addRow(tbodyId, isRx){
+      const tbody = document.getElementById(tbodyId);
+      const tr = document.createElement('tr');
+      if (isRx){
+        tr.innerHTML = `
+          <td><input type="text" placeholder="Paracetamol" /></td>
+          <td><input type="text" placeholder="500 mg" style="width:100%" /></td>
+          <td><input type="text" placeholder="Tablet" /></td>
+          <td><input type="text" placeholder="1" /></td>
+          <td>
+            <select>
+              <option>TID</option>
+              <option>BID</option>
+              <option>OD</option>
+              <option>QID</option>
+              <option>PRN</option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="5 days" /></td>
+          <td><input type="number" step="1" min="0" placeholder="10" /></td>
+          <td><input type="text" placeholder="After food" /></td>
+          <td><button type="button" class="btn" onclick="this.closest('tr').remove()">×</button></td>`;
+      } else {
+        tr.innerHTML = `
+          <td><input type="text" placeholder="CBC / X-Ray Chest" /></td>
+          <td>
+            <select>
+              <option>Lab</option>
+              <option>Radiology</option>
+              <option>Other</option>
+            </select>
+          </td>
+          <td>
+            <select>
+              <option>Routine</option>
+              <option>Urgent</option>
+              <option>Stat</option>
+            </select>
+          </td>
+          <td><input type="text" placeholder="Fasting required" /></td>
+          <td><button type="button" class="btn" onclick="this.closest('tr').remove()">×</button></td>`;
+      }
+      tbody.appendChild(tr);
+    }
